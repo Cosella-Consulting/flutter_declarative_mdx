@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_declarative_mdx/hooks/use_actions.dart';
+import 'package:flutter_declarative_mdx/hooks/use_current_step.dart';
 import 'package:flutter_declarative_mdx/hooks/use_customization_provider.dart';
 import 'package:flutter_declarative_mdx/hooks/use_page_status.dart';
 import 'package:flutter_declarative_mdx/hooks/use_steps.dart';
 import 'package:flutter_declarative_mdx/layout/layout_actions.dart';
 import 'package:flutter_declarative_mdx/layout/layout_header.dart';
 import 'package:flutter_declarative_mdx/layout/layout_page.dart';
+import 'package:flutter_declarative_mdx/model/styled_workflow_step.dart';
 import 'package:flutter_declarative_mdx/model/workflow_status.dart';
 import 'package:flutter_declarative_mdx/model/workflow_step.dart';
 import 'package:flutter_declarative_mdx/model/workflow_step_info.dart';
@@ -22,6 +24,7 @@ class LayoutWorkflow extends HookWidget {
     final actions = useActions();
     final steps = useSteps();
     final pageStatus = usePageStatus();
+    final currentStep = useCurrentStep();
 
     WorkflowStepInfo mapWorkflowStepToWorkflowStepInfo(
       MapEntry<int, WorkflowStep> entry,
@@ -40,8 +43,12 @@ class LayoutWorkflow extends HookWidget {
     );
 
     final children = <Widget>[];
+    final stepStyle = currentStep.style ?? StyledWorkflowStep();
 
-    if (steps.length > 1) {
+    final hideFooter = stepStyle.hideFooter ?? false;
+    final hideHeader = stepStyle.hideHeader ?? false;
+
+    if (steps.length > 1 && !hideHeader) {
       final header =
           customizations?.headerBuilder != null
               ? customizations!.headerBuilder!(status)
@@ -51,7 +58,7 @@ class LayoutWorkflow extends HookWidget {
 
     children.add(LayoutPage());
 
-    if (steps.length > 1) {
+    if (steps.length > 1 && !hideFooter) {
       final footer =
           customizations?.footerBuilder != null
               ? customizations!.footerBuilder!(status)

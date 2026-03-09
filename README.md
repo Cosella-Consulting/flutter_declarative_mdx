@@ -2,6 +2,8 @@
 
 ![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
 
+> **Version 1.0.0 is imminent**, until version 1.0.0 is available we recommend you don't use this package in any production systems. All versions before v1.0.0 may have breaking changes.
+
 A Flutter library for rendering **Extensible Markdown (MDX)** as native UI.
 
 `flutter_declarative_mdx` enables server-driven pages, forms, documents, and workflows to be defined using structured markdown and rendered directly inside a Flutter app.
