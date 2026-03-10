@@ -68,6 +68,10 @@ class LayoutContent extends HookWidget {
           textStyle:
               overrides?.code == null ? fixedTextStyle : overrides!.code!,
         ),
+        md.ListConfig(
+          marker:
+              currentPage.style?.listMarker ?? currentStep.style?.listMarker,
+        ),
       ],
     );
 

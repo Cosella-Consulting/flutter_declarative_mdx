@@ -1,20 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_declarative_mdx/hooks/use_current_step.dart';
 import 'package:flutter_declarative_mdx/hooks/use_steps.dart';
-import 'package:flutter_declarative_mdx/model/workflow_step.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 class LayoutHeader extends HookWidget {
   final Widget Function(int number, String? label)? buildLabel;
-  final Widget Function()? buildDivider;
 
-  const LayoutHeader({super.key, this.buildDivider, this.buildLabel});
+  const LayoutHeader({super.key, this.buildLabel});
 
-  Widget buildDefaultLabel(int number, String? label) {
-    final children = <Widget>[Text(number.toString())];
+  Widget buildDefaultLabel(int index, String? label, Widget divider) {
+    final children = <Widget>[];
+
+    if (index > 0) {
+      children.add(divider);
+    }
+
+    children.add(Text((index + 1).toString()));
 
     if (label != null) {
+      children.add(SizedBox(width: 10));
       children.add(Text(label));
     }
+
     return Row(children: children);
   }
 
@@ -22,27 +29,30 @@ class LayoutHeader extends HookWidget {
     return Text(" ... ");
   }
 
-  Iterable<Widget> mapStepLabel(int index, WorkflowStep step, Widget divider) {
-    final stepNumber = index + 1;
-
-    final label =
-        buildLabel == null
-            ? buildDefaultLabel(stepNumber, step.label)
-            : buildLabel!(stepNumber, step.label);
-
-    return index > 0 ? [divider, label] : [label];
-  }
-
   @override
   Widget build(BuildContext context) {
     final steps = useSteps();
+    final currentStep = useCurrentStep();
+
+    final shouldHide = currentStep.style?.hideHeader ?? false;
+    if (shouldHide) return Container();
+
+    if (currentStep.style?.headerBuilder != null) {
+      return currentStep.style!.headerBuilder!();
+    }
 
     final divider =
-        buildDivider == null ? buildDefaultDivider() : buildDivider!();
+        currentStep.style?.stepDividerBuilder == null
+            ? buildDefaultDivider()
+            : currentStep.style!.stepDividerBuilder!();
 
     final children = <Widget>[];
     for (var entry in steps.asMap().entries) {
-      children.addAll(mapStepLabel(entry.key, entry.value, divider));
+      children.add(
+        currentStep.style?.stepLabelBuilder == null
+            ? buildDefaultLabel(entry.key, entry.value.label, divider)
+            : currentStep.style!.stepLabelBuilder!(),
+      );
     }
 
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: children);
