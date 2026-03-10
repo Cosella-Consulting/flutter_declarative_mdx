@@ -1,6 +1,6 @@
 name: flutter_declarative_mdx
 description: "flutter_declarative_mdx enables server-driven pages, forms, documents, and workflows to be defined using structured markdown and rendered directly inside a Flutter app."
-version: 0.0.2
+version: 0.0.3
 repository: https://github.com/cosella-consulting/flutter_declarative_mdx
 homepage: https://cosella-consulting.github.io/flutter_declarative_mdx/
 

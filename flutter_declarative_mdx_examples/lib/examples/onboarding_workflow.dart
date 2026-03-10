@@ -67,7 +67,7 @@ Which bank account will you use to fund this account?
         NiNumberTagHandler(),
         SortCodeTagHandler(),
       ],
-      headerBuilder: (workflowStatus) => CustomStepProgress(workflowStatus),
+      headerBuilder: () => CustomStepProgress(),
     );
 
     return MainLayout(

@@ -1,7 +1,7 @@
 name: flutter_declarative_mdx_examples
 description: "A collection of examples for use with flutter_declarative_mdx."
 publish_to: 'none'
-version: 0.0.1
+version: 0.0.2
 
 environment:
   sdk: ^3.7.0

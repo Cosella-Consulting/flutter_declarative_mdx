@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_declarative_mdx/hooks/use_current_page.dart';
+import 'package:flutter_declarative_mdx/hooks/use_current_step.dart';
 import 'package:flutter_declarative_mdx/hooks/use_customization_provider.dart';
 import 'package:flutter_declarative_mdx/hooks/use_model_state_provider.dart';
 import 'package:flutter_declarative_mdx/layout/extensible_markdown/default_tag_handlers/select_tag_handler.dart';
@@ -10,6 +12,15 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:markdown_widget/markdown_widget.dart' as md;
 
+Widget wrapContent(
+  BuildContext context,
+  Widget child,
+  Widget Function(BuildContext context, Widget child)? wrapper,
+) {
+  if (wrapper == null) return child;
+  return wrapper(context, child);
+}
+
 class LayoutContent extends HookWidget {
   final String content;
 
@@ -20,23 +31,47 @@ class LayoutContent extends HookWidget {
     final customization = useCustomizationProvider();
     final modelProvider = useModelStateProvider();
 
+    final currentStep = useCurrentStep();
+    final currentPage = useCurrentPage();
+
     final baseTextStyle = GoogleFonts.roboto().copyWith(fontSize: 14.0);
     final fixedTextStyle = GoogleFonts.robotoMono().copyWith(fontSize: 14.0);
     final headingTextStyle = baseTextStyle.copyWith(
       fontWeight: FontWeight.bold,
     );
 
+    final overrides = currentStep.style?.typography;
+
+    TextStyle buildHeadingStyle(int depth, double size) =>
+        overrides?.headings != null && overrides!.headings!.length > depth
+            ? overrides.headings![depth]
+            : headingTextStyle.copyWith(fontSize: size);
+
     final markdownConfiguration = md.MarkdownConfig.defaultConfig.copy(
       configs: [
-        md.PConfig(textStyle: baseTextStyle),
-        md.H1Config(style: headingTextStyle.copyWith(fontSize: 22)),
-        md.H2Config(style: headingTextStyle.copyWith(fontSize: 20)),
-        md.H3Config(style: headingTextStyle.copyWith(fontSize: 18)),
-        md.H4Config(style: headingTextStyle.copyWith(fontSize: 16)),
-        md.H5Config(style: headingTextStyle),
-        md.H6Config(style: baseTextStyle.copyWith(fontSize: 12)),
-        md.CodeConfig(style: fixedTextStyle),
-        md.PreConfig(textStyle: fixedTextStyle),
+        md.PConfig(
+          textStyle:
+              overrides?.paragraph == null
+                  ? baseTextStyle
+                  : overrides!.paragraph!,
+        ),
+        md.H1Config(style: buildHeadingStyle(0, 22)),
+        md.H2Config(style: buildHeadingStyle(1, 20)),
+        md.H3Config(style: buildHeadingStyle(2, 18)),
+        md.H4Config(style: buildHeadingStyle(3, 16)),
+        md.H5Config(style: buildHeadingStyle(4, 14)),
+        md.H6Config(style: buildHeadingStyle(5, 12)),
+        md.CodeConfig(
+          style: overrides?.code == null ? fixedTextStyle : overrides!.code!,
+        ),
+        md.PreConfig(
+          textStyle:
+              overrides?.code == null ? fixedTextStyle : overrides!.code!,
+        ),
+        md.ListConfig(
+          marker:
+              currentPage.style?.listMarker ?? currentStep.style?.listMarker,
+        ),
       ],
     );
 
@@ -47,7 +82,7 @@ class LayoutContent extends HookWidget {
       ...(customization?.componentHandlers ?? []),
     ];
 
-    return Column(
+    final contentWidget = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: md.MarkdownGenerator(
@@ -59,6 +94,12 @@ class LayoutContent extends HookWidget {
               modelProvider: modelProvider,
             ),
       ).buildWidgets(content, config: markdownConfiguration),
+    );
+
+    return wrapContent(
+      context,
+      wrapContent(context, contentWidget, currentPage.style?.containerBuilder),
+      currentStep.style?.containerBuilder,
     );
   }
 }

@@ -1,3 +1,12 @@
+## 0.0.3
+
+- Added useWorkflowNavigation hook to allow navigation from custom components
+- Allow custom markers for ordered and unordered lists
+- Moves logic for header and footer components in to the components themselves
+- Allows customizable header and/or footer components at workflow, step and page levels
+- Can hide the header and/or footers at workflow, step and page levels
+- Customizable markdown typography at workflow, step and page levels
+
 ## 0.0.2
 
 - Lots more working examples available in the repo
