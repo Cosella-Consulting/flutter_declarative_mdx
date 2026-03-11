@@ -1,19 +1,26 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_declarative_mdx/hooks/use_model_state_provider.dart';
 import 'package:flutter_declarative_mdx/layout/extensible_markdown/tag_handler.dart';
+import 'package:flutter_declarative_mdx/hooks/use_model_state_provider.dart';
 
-final _selectTag = 'Select';
+final _selectTag = 'PersonalTitle';
 
-class SelectTagHandler extends TagHandler {
+class PersonalTitleTagHandler extends TagHandler {
   @override
   InlineSpan build(String content, Map<String, String> attributes) {
     final String? label = attributes["label"];
-    final String? optionsJson = attributes["options"];
     final String? propertyName = attributes["propertyName"];
 
     final modelProvider = useModelStateProvider();
+
+    final Map<String, String> options = {
+      "Mr": "mr",
+      "Mrs": "mrs",
+      "Miss": "miss",
+      "Ms": "ms",
+      "Dr": "dr",
+      "Prof.": "prof",
+      "Rev.": "rev",
+    };
 
     onSelectChanged(dynamic value) {
       modelProvider.updateModel(propertyName, value);
@@ -23,17 +30,6 @@ class SelectTagHandler extends TagHandler {
 
     if (label != null) {
       children.add(Text(label));
-    }
-
-    var options = {};
-    try {
-      if (optionsJson != null) {
-        options = jsonDecode(optionsJson.replaceAll("'", "\""));
-      }
-    } catch (err) {
-      throw Exception(
-        "Invalid JSON found in the 'options' attribute of the <Select /> tag: $optionsJson.\n\n$err",
-      );
     }
 
     children.add(

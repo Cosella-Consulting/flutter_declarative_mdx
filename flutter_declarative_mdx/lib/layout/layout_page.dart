@@ -21,6 +21,15 @@ class LayoutPage extends HookWidget {
       return () {};
     }, [page]);
 
-    return Expanded(child: LayoutContent(content.value));
+    return Expanded(
+      child: CustomScrollView(
+        slivers: [
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: LayoutContent(content.value),
+          ),
+        ],
+      ),
+    );
   }
 }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_declarative_mdx/layout/extensible_markdown/tag_handler.dart';
-import 'package:flutter_declarative_mdx/providers/model_state_provider.dart';
 
 final _inputTag = 'Callout';
 
@@ -12,11 +11,7 @@ class CalloutTagHandler extends TagHandler {
   final Map<String, Color> colors = {CalloutType.info: Colors.blue};
 
   @override
-  InlineSpan build(
-    String content,
-    Map<String, String> attributes,
-    ModelStateProvider? modelProvider,
-  ) {
+  InlineSpan build(String content, Map<String, String> attributes) {
     final String type = attributes["type"] ?? CalloutType.info;
 
     return WidgetSpan(

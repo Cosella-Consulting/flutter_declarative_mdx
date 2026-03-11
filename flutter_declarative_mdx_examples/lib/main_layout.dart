@@ -4,9 +4,9 @@ import 'package:flutter_declarative_mdx_examples/model_state_view.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 class MainLayout extends HookWidget {
-  final Widget? child;
+  final Widget child;
 
-  const MainLayout({super.key, this.child});
+  const MainLayout({super.key, required this.child});
 
   @override
   Widget build(BuildContext context) {
@@ -15,16 +15,7 @@ class MainLayout extends HookWidget {
     final showCode = useState(false);
 
     final children = <Widget>[
-      Expanded(
-        child: CustomScrollView(
-          slivers: [
-            SliverFillRemaining(
-              hasScrollBody: false,
-              child: Container(margin: EdgeInsets.all(20), child: child),
-            ),
-          ],
-        ),
-      ),
+      Expanded(child: Container(margin: EdgeInsets.all(20), child: child)),
     ];
 
     if (showCode.value) {

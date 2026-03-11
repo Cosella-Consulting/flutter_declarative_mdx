@@ -1,10 +1,10 @@
-import 'package:flutter_declarative_mdx/model/styled_workflow_page.dart';
+import 'package:flutter_declarative_mdx/model/workflow_page_style.dart';
 
 class WorkflowPage {
   final String? content;
   final Future<String> Function()? contentLoader;
 
-  final StyledWorkflowPage? style;
+  final WorkflowPageStyle? style;
 
   WorkflowPage({this.content, this.contentLoader, this.style});
 }

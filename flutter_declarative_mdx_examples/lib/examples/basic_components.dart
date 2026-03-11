@@ -29,14 +29,14 @@ An input control that allows for free text to be input and sent to the model. Al
 ```
 
 #### Selection Dropdown
-<select label="Input Label" options="{
+<Select label="Input Label" options="{
   'Option 1': 1,
   'Option 2': 2,
   'Option 3': 3
 }" propertyName="example_2_selection" />
 
 ```
-<select 
+<Select 
   label="Input Label"
   options="{
     'Option 1': 1,
@@ -49,10 +49,10 @@ An input control that allows for free text to be input and sent to the model. Al
 *Note that inside the options attribute any strings in the map must use a single quote, unlike true JSON.*
 
 #### Model submission
-<submit_model label="Submit Model" url="https://my.api/submissions" />
+<SubmitModel label="Submit Model" url="https://my.api/submissions" />
 
 ```
-<submit_model
+<SubmitModel
   label="Submit Model" 
   url="https://my.api/submissions" 
 />

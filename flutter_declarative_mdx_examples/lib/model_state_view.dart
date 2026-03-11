@@ -9,7 +9,7 @@ class ModelStateView extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final model = useModel({});
+    final model = useModel();
 
     return Container(
       color: Colors.black.withAlpha(32),

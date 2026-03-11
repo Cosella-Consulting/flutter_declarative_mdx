@@ -6,9 +6,7 @@ import 'package:flutter_declarative_mdx/layout/layout_page.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 class LayoutWorkflow extends HookWidget {
-  final bool isHorizontal;
-
-  const LayoutWorkflow({super.key, this.isHorizontal = false});
+  const LayoutWorkflow({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,12 +24,10 @@ class LayoutWorkflow extends HookWidget {
       children.add(LayoutFooter());
     }
 
-    return isHorizontal
-        ? Row(children: children)
-        : Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisSize: MainAxisSize.max,
-          children: children,
-        );
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.max,
+      children: children,
+    );
   }
 }

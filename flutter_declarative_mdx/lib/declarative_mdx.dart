@@ -8,6 +8,7 @@ import 'package:flutter_declarative_mdx/model/workflow.dart';
 import 'package:flutter_declarative_mdx/model/workflow_page.dart';
 import 'package:flutter_declarative_mdx/model/workflow_step.dart';
 import 'package:flutter_declarative_mdx/providers/customizations_provider.dart';
+import 'package:flutter_declarative_mdx/providers/model_state_provider.dart';
 import 'package:flutter_declarative_mdx/providers/workflow_provider.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:provider/provider.dart';
@@ -17,14 +18,7 @@ class DeclarativeMdx extends HookWidget {
   final DeclarativeMdxConfiguration configuration;
   final Customizations? customizations;
 
-  final bool isHorizontal;
-
-  const DeclarativeMdx(
-    this.configuration, {
-    super.key,
-    this.isHorizontal = false,
-    this.customizations,
-  });
+  const DeclarativeMdx(this.configuration, {super.key, this.customizations});
 
   factory DeclarativeMdx.fromPageContent(
     String content, {
@@ -71,6 +65,7 @@ class DeclarativeMdx extends HookWidget {
               customizations ?? Customizations(customComponents: []),
             ),
       ),
+      ChangeNotifierProvider(create: (_) => ModelStateProvider()),
     ];
 
     if (workflow != null) {
@@ -81,7 +76,7 @@ class DeclarativeMdx extends HookWidget {
 
     return MultiProvider(
       providers: providers,
-      builder: (context, child) => LayoutWorkflow(isHorizontal: isHorizontal),
+      builder: (context, child) => LayoutWorkflow(),
     );
   }
 }

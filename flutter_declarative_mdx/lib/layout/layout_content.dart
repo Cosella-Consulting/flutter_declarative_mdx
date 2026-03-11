@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_declarative_mdx/hooks/use_current_page.dart';
 import 'package:flutter_declarative_mdx/hooks/use_current_step.dart';
-import 'package:flutter_declarative_mdx/hooks/use_customization_provider.dart';
-import 'package:flutter_declarative_mdx/hooks/use_model_state_provider.dart';
+import 'package:flutter_declarative_mdx/hooks/use_customizations_provider.dart';
 import 'package:flutter_declarative_mdx/layout/extensible_markdown/default_tag_handlers/select_tag_handler.dart';
 import 'package:flutter_declarative_mdx/layout/extensible_markdown/tag_handler.dart';
-import 'package:flutter_declarative_mdx/layout/extensible_markdown/default_tag_handlers/input_tag_handler.dart';
+import 'package:flutter_declarative_mdx/layout/extensible_markdown/default_tag_handlers/text_field_tag_handler.dart';
 import 'package:flutter_declarative_mdx/layout/extensible_markdown/custom_node.dart';
 import 'package:flutter_declarative_mdx/layout/extensible_markdown/default_tag_handlers/submit_model_tag_handler.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -28,8 +27,7 @@ class LayoutContent extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
-    final customization = useCustomizationProvider();
-    final modelProvider = useModelStateProvider();
+    final customizations = useCustomizationsProvider();
 
     final currentStep = useCurrentStep();
     final currentPage = useCurrentPage();
@@ -76,10 +74,10 @@ class LayoutContent extends HookWidget {
     );
 
     final tagHandlers = <TagHandler>[
-      InputTagHandler(),
+      TextFieldTagHandler(),
       SelectTagHandler(),
       SubmitModelTagHandler(),
-      ...(customization?.componentHandlers ?? []),
+      ...(customizations?.componentHandlers ?? []),
     ];
 
     final contentWidget = Column(
@@ -91,15 +89,17 @@ class LayoutContent extends HookWidget {
               tagHandlers: tagHandlers,
               text: node.textContent,
               config: config,
-              modelProvider: modelProvider,
             ),
       ).buildWidgets(content, config: markdownConfiguration),
     );
 
-    return wrapContent(
-      context,
-      wrapContent(context, contentWidget, currentPage.style?.containerBuilder),
-      currentStep.style?.containerBuilder,
-    );
+    if (currentPage.style?.containerBuilder != null) {
+      return currentPage.style!.containerBuilder!(context, contentWidget);
+    } else if (currentStep.style?.containerBuilder != null) {
+      return currentStep.style!.containerBuilder!(context, contentWidget);
+    } else if (customizations?.containerBuilder != null) {
+      return customizations!.containerBuilder!(context, contentWidget);
+    }
+    return contentWidget;
   }
 }

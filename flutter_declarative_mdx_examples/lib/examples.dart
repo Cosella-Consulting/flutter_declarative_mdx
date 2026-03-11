@@ -5,7 +5,6 @@ import 'package:flutter_declarative_mdx_examples/examples/from_markdown_asset.da
 import 'package:flutter_declarative_mdx_examples/examples/from_markdown_server.dart';
 import 'package:flutter_declarative_mdx_examples/examples/simple_markdown.dart';
 import 'package:flutter_declarative_mdx_examples/examples/simple_workflow.dart';
-import 'package:flutter_declarative_mdx_examples/examples/onboarding_workflow.dart';
 
 class Example {
   final String path;
@@ -17,11 +16,6 @@ class Example {
 
 class Examples {
   static List<Example> get all => [
-    Example(
-      "/onboarding-workflow",
-      "An onboarding workflow",
-      (context) => OnboardingWorkflowExample(),
-    ),
     Example(
       "/simple-markdown",
       "A simple MDX page",

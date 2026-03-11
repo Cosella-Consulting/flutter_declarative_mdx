@@ -32,6 +32,10 @@ class WorkflowProvider with ChangeNotifier {
     if (_currentStepIndex < steps.length - 1 ||
         _currentPageIndex < pages.length - 1) {
       actions.add(WorkflowAction(label: "Next", onTap: navigateNext));
+    } else {
+      actions.add(
+        WorkflowAction(label: "Complete", onTap: workflow.onComplete ?? () {}),
+      );
     }
 
     actions.add(
