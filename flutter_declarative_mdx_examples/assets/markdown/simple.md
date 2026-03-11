@@ -30,3 +30,5 @@ Bundling Markdown with the app is useful when:
 - Content rarely changes
 - You want fallback content if the server is unavailable
 
+
+

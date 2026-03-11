@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_declarative_mdx/layout/extensible_markdown/tag_handler.dart';
 
-final _submitModelTag = 'submit_model';
+final _submitModelTag = 'SubmitModel';
 
 class SubmitModelType {
   static final text = "text";
@@ -9,11 +9,7 @@ class SubmitModelType {
 
 class SubmitModelTagHandler extends TagHandler {
   @override
-  InlineSpan build(
-    String content,
-    Map<String, String> attributes,
-    dynamic model,
-  ) {
+  InlineSpan build(String content, Map<String, String> attributes) {
     final String label = attributes["label"] ?? "Submit model";
 
     onSubmitModelPressed() {

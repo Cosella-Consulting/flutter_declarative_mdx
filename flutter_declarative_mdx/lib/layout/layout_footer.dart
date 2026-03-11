@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_declarative_mdx/hooks/use_actions.dart';
 import 'package:flutter_declarative_mdx/hooks/use_current_step.dart';
+import 'package:flutter_declarative_mdx/hooks/use_customizations_provider.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
 class LayoutFooter extends HookWidget {
@@ -8,6 +9,7 @@ class LayoutFooter extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final customizations = useCustomizationsProvider();
     final actions = useActions();
     final currentStep = useCurrentStep();
 
@@ -16,9 +18,12 @@ class LayoutFooter extends HookWidget {
 
     if (currentStep.style?.footerBuilder != null) {
       return currentStep.style!.footerBuilder!();
+    } else if (customizations?.footerBuilder != null) {
+      return customizations!.footerBuilder!();
     }
 
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children:
           actions
               .map(

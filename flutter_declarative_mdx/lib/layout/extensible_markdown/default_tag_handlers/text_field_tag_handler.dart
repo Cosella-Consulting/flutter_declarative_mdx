@@ -1,26 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_declarative_mdx/hooks/use_model_state_provider.dart';
 import 'package:flutter_declarative_mdx/layout/extensible_markdown/tag_handler.dart';
-import 'package:flutter_declarative_mdx/providers/model_state_provider.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 
 final _inputTag = 'input';
 
 class InputType {
-  static final text = "text";
+  static final text = "TextField";
 }
 
-class InputTagHandler extends TagHandler {
+class TextFieldTagHandler extends TagHandler {
   @override
-  InlineSpan build(
-    String content,
-    Map<String, String> attributes,
-    ModelStateProvider? modelProvider,
-  ) {
+  InlineSpan build(String content, Map<String, String> attributes) {
     final String type = attributes["type"] ?? InputType.text;
     final String? label = attributes["label"];
     final String? propertyName = attributes["propertyName"];
 
+    final modelProvider = useModelStateProvider();
+    final controller = useTextEditingController(
+      text: modelProvider.model[propertyName],
+    );
+
     onInputChanged(String value) {
-      modelProvider?.updateModel(propertyName, value);
+      modelProvider.updateModel(propertyName, value);
     }
 
     final children = <Widget>[];
@@ -29,7 +31,9 @@ class InputTagHandler extends TagHandler {
       children.add(Text(label));
     }
     if (type == InputType.text) {
-      children.add(TextField(onChanged: onInputChanged));
+      children.add(
+        TextField(controller: controller, onChanged: onInputChanged),
+      );
     }
 
     return WidgetSpan(

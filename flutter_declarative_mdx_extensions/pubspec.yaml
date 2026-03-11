@@ -11,7 +11,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_declarative_mdx: ^0.0.2
+  flutter_declarative_mdx: 
+    path: ../flutter_declarative_mdx
   flutter_hooks: ^0.21.2
   provider: ^6.1.5
 

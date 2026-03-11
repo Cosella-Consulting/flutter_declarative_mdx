@@ -1,24 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_declarative_mdx/layout/extensible_markdown/tag_handler.dart';
-import 'package:flutter_declarative_mdx/providers/model_state_provider.dart';
 import 'package:markdown_widget/markdown_widget.dart';
 
 class CustomNode extends ElementNode {
   final List<TagHandler>? tagHandlers;
   final String text;
   final MarkdownConfig config;
-  final ModelStateProvider? modelProvider;
 
   String? customTag;
   String? customContent;
   Map<String, String>? customAttributes;
 
-  CustomNode({
-    this.modelProvider,
-    this.tagHandlers,
-    required this.text,
-    required this.config,
-  });
+  CustomNode({this.tagHandlers, required this.text, required this.config});
 
   Map<String, String> attributesFromText(String tag, String parseTarget) {
     final RegExp attrRegExp = RegExp(
@@ -65,7 +58,7 @@ class CustomNode extends ElementNode {
 
     return (tagHandlers ?? [])
         .firstWhere((handler) => handler.tag == customTag)
-        .build(customContent ?? "", customAttributes!, modelProvider);
+        .build(customContent ?? "", customAttributes!);
   }
 
   @override

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_declarative_mdx/hooks/use_current_step.dart';
+import 'package:flutter_declarative_mdx/hooks/use_customizations_provider.dart';
 import 'package:flutter_declarative_mdx/hooks/use_steps.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 
@@ -31,6 +32,7 @@ class LayoutHeader extends HookWidget {
 
   @override
   Widget build(BuildContext context) {
+    final customizations = useCustomizationsProvider();
     final steps = useSteps();
     final currentStep = useCurrentStep();
 
@@ -39,6 +41,8 @@ class LayoutHeader extends HookWidget {
 
     if (currentStep.style?.headerBuilder != null) {
       return currentStep.style!.headerBuilder!();
+    } else if (customizations?.headerBuilder != null) {
+      return customizations!.headerBuilder!();
     }
 
     final divider =

@@ -10,6 +10,8 @@ class CustomizationsProvider with ChangeNotifier {
   List<TagHandler> get componentHandlers => customizations.customComponents;
   Widget Function()? get footerBuilder => customizations.footerBuilder;
   Widget Function()? get headerBuilder => customizations.headerBuilder;
+  Widget Function(BuildContext context, Widget child)? get containerBuilder =>
+      customizations.containerBuilder;
 
   void addCustomComponents(List<TagHandler> components) {
     customizations.customComponents = [

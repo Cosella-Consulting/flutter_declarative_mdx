@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_declarative_mdx/hooks/use_model_state_provider.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_declarative_mdx/layout/extensible_markdown/tag_handler.dart';
-import 'package:flutter_declarative_mdx/providers/model_state_provider.dart';
 
 final _sortCodeTag = 'SortCode';
 
 class SortCodeTagHandler extends TagHandler {
   @override
-  InlineSpan build(
-    String content,
-    Map<String, String> attributes,
-    ModelStateProvider? modelProvider,
-  ) {
+  InlineSpan build(String content, Map<String, String> attributes) {
     final fieldName = attributes["name"] ?? "sortCode";
     final label = attributes["label"] ?? "Sort code";
     final required = attributes["required"] == "true";
+
+    final modelProvider = useModelStateProvider();
 
     String digitsOnly(String input) => input.replaceAll(RegExp(r'\D'), '');
 
@@ -36,7 +34,7 @@ class SortCodeTagHandler extends TagHandler {
       return null;
     }
 
-    final initialRaw = (modelProvider?.model[fieldName]?.toString() ?? '');
+    final initialRaw = (modelProvider.model[fieldName]?.toString() ?? '');
     final controller = useTextEditingController(text: format(initialRaw));
     final error = useState<String?>(validate(digitsOnly(controller.text)));
 
@@ -58,7 +56,7 @@ class SortCodeTagHandler extends TagHandler {
         if (error.value != nextError) error.value = nextError;
 
         // Update model with digits-only value (e.g. "112233")
-        modelProvider?.updateModel(fieldName, raw);
+        modelProvider.updateModel(fieldName, raw);
       }
 
       controller.addListener(listener);

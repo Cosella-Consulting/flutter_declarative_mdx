@@ -28,7 +28,6 @@ class CalloutTagHandler extends TagHandler {
   InlineSpan build(
     String content,
     Map<String, String> attributes,
-    ModelStateProvider? modelProvider,
   ) {
     final String type = attributes["type"] ?? CalloutType.info;
 

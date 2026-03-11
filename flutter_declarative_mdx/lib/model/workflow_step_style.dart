@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_declarative_mdx/model/styled_workflow_page.dart';
+import 'package:flutter_declarative_mdx/model/workflow_page_style.dart';
 
-class StyledWorkflowStep extends StyledWorkflowPage {
+class WorkflowStepStyle extends WorkflowPageStyle {
   final Widget Function()? headerBuilder;
   final Widget Function()? footerBuilder;
   final bool? hideHeader;
@@ -10,7 +10,7 @@ class StyledWorkflowStep extends StyledWorkflowPage {
   final Widget Function()? stepDividerBuilder;
   final Widget Function()? stepLabelBuilder;
 
-  StyledWorkflowStep({
+  WorkflowStepStyle({
     this.headerBuilder,
     this.footerBuilder,
     this.hideHeader,

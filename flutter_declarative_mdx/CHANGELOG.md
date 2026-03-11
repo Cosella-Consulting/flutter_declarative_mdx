@@ -1,3 +1,12 @@
+## 0.0.4
+
+- Refactored model state provider so it does not need to be passed and appears on the context
+- Workflow content now scrolls with the bottom actions being sticky (Opinionated layout)
+- Horizontal layout is no longer supported
+- Container, Header and Footer customizations are no longer additive and most granular is selected
+- Better naming of style classes
+- Added more extension components and fixed casing of existing components (Pascal case)
+
 ## 0.0.3
 
 - Added useWorkflowNavigation hook to allow navigation from custom components
