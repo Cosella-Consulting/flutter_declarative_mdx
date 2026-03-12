@@ -1,6 +1,6 @@
 name: flutter_declarative_mdx_extensions
 description: "A collection of components to customize and extend the flutter_declarative_mdx package."
-version: 0.0.1
+version: 0.0.2
 repository: https://github.com/cosella-consulting/flutter_declarative_mdx
 homepage: https://cosella-consulting.github.io/flutter_declarative_mdx/
 
@@ -11,8 +11,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_declarative_mdx: 
-    path: ../flutter_declarative_mdx
+  flutter_declarative_mdx: ^0.0.4
   flutter_hooks: ^0.21.2
   provider: ^6.1.5
 
